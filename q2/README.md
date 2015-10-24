@@ -21,7 +21,7 @@ _cvs:*:72:72:CVS Server:/var/empty:/usr/bin/false
 
 
 ### Scenario 2
-The script `randmomfile.py` will return a randomly selected line from a randomly selected file, out of the set given as a command line argument.
+The script `randomfile.py` will return a randomly selected line from a randomly selected file, out of the set given as a command line argument.
 
 ```
 mghali@ernie.int.snark.net:~/work/quantcast/q2$ ./randomfile.py /etc/passwd /etc/hosts
