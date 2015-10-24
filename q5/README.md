@@ -1,5 +1,5 @@
 # quantcast
-[Platform Operations Interview Test for Quantcast](../../blob/master/README.md)
+[Platform Operations Interview Test for Quantcast](../../master/README.md)
 
 ## Question 5
 Describe in as much detail as possible the transaction(s) depicted below...
