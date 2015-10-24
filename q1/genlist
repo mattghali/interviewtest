@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+# gets a big list of ip addresses, repeats some to make life interesting
+# writes them to iplist.txt (for common1.py)
+
+# pull the list via http
+curl -s http://pastebin.com/raw.php?i=ASfYTWgw | \
+    # process, write to file
+    tail -1 | tr , \\n | tr -d ' ' > iplist.txt
+
+# add trailing newline
+echo >> iplist.txt
+
+# repeat some entries to make life interesting
+tail -500 iplist.txt >> add.txt
+
+tail -500 add.txt >> iplist.txt
+tail -250 add.txt >> iplist.txt
+tail -100 add.txt >> iplist.txt
+tail -50 add.txt >> iplist.txt
+tail -25 add.txt >> iplist.txt
+tail -10 add.txt >> iplist.txt
+
+# clean up
+rm add.txt
+
+
+# gets a copy of the root zone, which has ip addresses mixed in with
+# other data (for common2.py)
+
+curl -sO ftp://rs.internic.net/domain/root.zone
