@@ -6,7 +6,7 @@ Write a program or script (in any language) that performs the following task: Gi
 
 
 ## Answers
-I've provided code to handle both scenerios described in the question: a file containing a single IP address per line, and an unstructured file containing addresses as well.
+I've provided code to handle both scenarios described in the question: a file containing a single IP address per line, and an unstructured file containing addresses as well.
 
 
 ### Setup
@@ -24,7 +24,7 @@ mghali@ernie.int.snark.net:~/work/quantcast/q1$ ./common1.py iplist.txt
 
 
 ### Scenario 2
-The script `common2.py` will return the top 10 most common addresses found in an unstructure file of data such as `root.zone`.
+The script `common2.py` will return the top 10 most common addresses found in an unstructured file of data such as `root.zone`.
 
 ```
 mghali@ernie.int.snark.net:~/work/quantcast/q1$ ./common2.py root.zone 
