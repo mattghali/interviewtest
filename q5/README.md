@@ -26,15 +26,15 @@ Following is a packet-by-packet breakdown of the exchange.
 
 `10.128.131.133.59096 > 10.122.0.110.22: Flags [S], seq 2556384732, win 65535, length 0`
 
-            |
------------ | --------------------
-Source      | 10.128.131.133.59096
-Destination | 10.122.0.110.22
-Flags       | SYN
-Sequence    | 2556384732
-Ack range   | n/a
-TCP window  | 65535
-Length      | 0
+             |
+------------ | ---------------------
+Source       | 10.128.131.133.59096
+Destination  | 10.122.0.110.22
+Flags        | SYN
+Sequence     | 2556384732
+Ack range    | n/a
+TCP window   | 65535
+Length       | 0
 
 Initial opening packet of the session, from the client 10.128.131.133 using source port 59096, to the server at 10.122.0.110 listening on port 22 (typically SSH). The client chooses an inital sequence number of 2556384732, and advertises a tcp receive window of 65535. This means the client is requesting an ack for every 64 kilobytes that it sends. Since the packet contains no data, because the tcp connection is "embryonic", the length of the tcp payload is 0 bytes.
 
