@@ -26,7 +26,7 @@ Following is a packet-by-packet breakdown of the exchange.
 
 `10.128.131.133.59096 > 10.122.0.110.22: Flags [S], seq 2556384732, win 65535, length 0`
 
-             |
+Field        | Data
 ------------ | ---------------------
 Source       | 10.128.131.133.59096
 Destination  | 10.122.0.110.22
