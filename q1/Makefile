@@ -8,7 +8,7 @@ iplist.txt:
 	./genlist
 
 root.zone:
-	curl -sO ftp://rs.internic.net/domain/root.zone
+	curl -sO http://www.internic.net/zones/root.zone
 
 clean:
-	rm root.zone iplist.txt
+	rm -f root.zone iplist.txt

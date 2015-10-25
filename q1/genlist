@@ -28,4 +28,4 @@ rm add.txt
 # gets a copy of the root zone, which has ip addresses mixed in with
 # other data (for common2.py)
 
-curl -sO ftp://rs.internic.net/domain/root.zone
+curl -sO http://www.internic.net/zones/root.zone
