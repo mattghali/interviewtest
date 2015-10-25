@@ -66,6 +66,7 @@ Ack range    | 1 Packet
 TCP window   | 65535
 Length       | 0
 
+Final ACK from the client, taking this tcp connection from 'half-open' to 'established'. At this stage, tcpdump has displayed the ISN from both sides of the connection, and now switches to relative sequence numbers, which are easier for humans to read and keep track of.
 
 
 `10.122.0.110.22 > 10.128.131.133.59096: Flags [P.], seq 1:21, ack 1, win 46, length 20`
@@ -80,6 +81,7 @@ Ack range    | 1 Packet
 TCP window   | 46
 Length       | 21
 
+The server sends 21 bytes of traffic to the client. Now that the tcp session is established, the application protocol can begin. This is likely the ssh daemon sending its banner, using the PSH flag to signal tcp not to delay this packet. Otherwise tcp would try to collect many small packets into a larger packet closer to the receiver's window size. The server also sets its recieve window to a very small size, encouraging the client to immediately send data as well.
 
 
 `10.128.131.133.59096 > 10.122.0.110.22: Flags [.], ack 21, win 65535, length 0`
@@ -94,6 +96,7 @@ Ack range    | Up to 21
 TCP window   | 65535
 Length       | 0
 
+The client acks the data received from the server, but has no additional data to send itself. At the application layer the ssh client may be waiting to complete keyboard authentication.
 
 
 `10.128.131.133.59096 > 10.122.0.110.22: Flags [P.], seq 1:22, ack 21, win 65535, length 21`
@@ -108,6 +111,7 @@ Ack range    | Up to 21
 TCP window   | 65535
 Length       | 21
 
+The client sends over 21 bytes of data, also with the PSH flag set.
 
 
 `10.122.0.110.22 > 10.128.131.133.59096: Flags [.], ack 22, win 46, length 0`
@@ -122,6 +126,7 @@ Ack range    | Up to 22
 TCP window   | 46
 Length       | 0
 
+The server ACKs the 21 bytes sent by the client.
 
 
 `10.128.131.133.59096 > 10.122.0.110.22: Flags [P.], seq 22:814, ack 21, win 65535, length 792`
@@ -136,6 +141,7 @@ Ack range    | Up to 21
 TCP window   | 65535
 Length       | 792
 
+Client sends 792 bytes of data to the server, with PSH set. At the same time, it again ACKs the 21 bytes it's received from the server.
 
 
 `10.122.0.110.22 > 10.128.131.133.59096: Flags [P.], seq 21:725, ack 22, win 46, length 704`
@@ -150,6 +156,7 @@ Ack range    | Up to 22
 TCP window   | 46
 Length       | 704
 
+The server sends 704 bytes of data, with PSH set. It has not seen 22 through 814 from the client yet, either because of timing or loss, so it ACKs ip to 22.
 
 
 `10.128.131.133.59096 > 10.122.0.110.22: Flags [.], ack 725, win 65535, length 0`
@@ -164,3 +171,6 @@ Ack range    | Up to 725
 TCP window   | 65535
 Length       | 0
 
+The client ACKs data received from the server up to relative sequence number 725. This could mean it hasn't received 726 - 814 yet, or that the packets were dropped in transit.
+
+The capture ends at this point.
