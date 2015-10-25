@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+total=0
+
+for host in $*; do
+
+    # Iterate through hosts given as command line arguments, use the mysql
+    # client to list sizes for all tables. Use awk to sum table sizes.
+    tablesize=$(mysql -h ${host} -u root -e \
+       'SELECT TABLE_NAME AS "Table", data_length AS "Size"
+        FROM information_schema.TABLES' \
+        | awk '{ sum += $2 } END { print sum }')
+
+    # Print sum of table sizes on this host
+    echo "${host}: ${tablesize}"
+
+    # Add sum to running total for all hosts
+    total=$(($total + $tablesize))
+
+done
+
+# Print sum of all tables on all hosts
+echo "total size: ${total}"
+
