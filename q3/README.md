@@ -9,7 +9,7 @@ Write a program or script (in any language) that performs the following task: Gi
 From the question, it isn't clear whether the data required is the sum of table sizes on each host per host, or the sum across all hosts specified on the command line. I wrote the script `tablesize` to return both metrics. As the question instructed, I did not address any authentication for client connections.
 
 
-A run of the following scripts is available via [travis-ci.org](https://travis-ci.org/mattghali/quantcast).
+A run of the following script is available via [travis-ci.org](https://travis-ci.org/mattghali/quantcast).
 
 
 As a note, it may be advisable in production to calculate sizing using both data_length and index_length, replacing 'data_length' with 'sum(data_length, index_length)' on line 10. However the question specifically referred to table size, which is how I coded the answer.
