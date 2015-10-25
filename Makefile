@@ -4,4 +4,4 @@ test:
 	@echo "Running Question 2 scripts:"
 	(cd q2; make)
 	@echo "Running Question 3 scripts:"
-	(cd q3; ./tablesize localhost localhost)
+	(cd q3; make)
