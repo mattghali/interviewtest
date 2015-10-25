@@ -9,6 +9,9 @@ Write a program or script (in any language) that performs the following task: Gi
 I couldn't tell from the question whether the objective was a single random line from each file, or a single random line from the set of files. So I coded a script to produce either result.
 
 
+A run of the following scripts is available via [travis-ci.org](https://travis-ci.org/mattghali/quantcast).
+
+
 ### Scenario 1
 The script `randomline.py` will return a randomly selected line from each filename given as a command line argument.
 

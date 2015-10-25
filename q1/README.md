@@ -9,6 +9,9 @@ Write a program or script (in any language) that performs the following task: Gi
 I've provided code to handle both scenarios described in the question: a file containing a single IP address per line, and an unstructured file containing addresses as well.
 
 
+A run of the following scripts is available via [travis-ci.org](https://travis-ci.org/mattghali/quantcast).
+
+
 ### Setup
 Please see the included script named `genlist` which will create input files suitable for both exercise questions. It should produce a list of ip addresses named `iplist.txt` and a file named `root.zone`.
 
