@@ -8,6 +8,10 @@ Write a program or script (in any language) that performs the following task: Gi
 ## Answers
 From the question, it isn't clear whether the data required is the sum of table sizes on each host per host, or the sum across all hosts specified on the command line. I wrote the script `tablesize` to return both metrics. As the question instructed, I did not address any authentication for client connections.
 
+
+As a note, it may be advisable in production to calculate sizing using both data_length and index_length, replacing 'data_length' with 'sum(data_length, index_length)' on line 10. However the question specifically referred to table size, which is how I coded the answer.
+
+
 ```
 [ec2-user@ip-10-0-2-17 ~]$ ./tablesize localhost localhost
 localhost: 616145
