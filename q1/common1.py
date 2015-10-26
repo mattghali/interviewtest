@@ -26,7 +26,8 @@ with open(sys.argv[1], 'r') as iplist:
             # Add new addr to dictionary
             ipaddrs[addr] = 1
 
-results = []
+results = list()
+
 # Now return the top 10 most frequent addresses
 for addr in sorted(ipaddrs, key=ipaddrs.get, reverse=True):
 
