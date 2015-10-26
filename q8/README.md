@@ -38,7 +38,7 @@ Moving down the stack and armed with the app layer info, including results from 
 
  * Is the system having problems in general? A quick look at `top -o cpu` should show problems like excessive cpu load, or an unexpected amount of swap in use.
  * Am I able to resolve DNS for the website in question using `dig`; and do the results agree with `host`, which uses the system resolver libraries?
- * From the command line, am I able to connect to the required resources? HTTP resources can be checked by connecting `telnet` to port 80 of the webserver, HTTPS resources can be checked using `openssl s_client'.
+ * From the command line, am I able to connect to the required resources? HTTP resources can be checked by connecting `telnet` to port 80 of the webserver, HTTPS resources can be checked using `openssl s_client`.
  * Is the system able to open connections to other sites? Is there "personal firewall" or antivirus software interfering with new connections?
 
 
@@ -51,25 +51,25 @@ Investgate connectivity from the client. Look at the system configuration and en
  * Check connectivity to google.com with `ping` for any loss or latency
  * `ping` the website in question as well, it should likely show less latency than google
  * If there are any blocking resources from the pageload timeline, try pinging them as well
- * For any `ping` results showing loss/latency, try a `traceroute` to narrow down where the loss si occuring. Is it closer to the client or server?
+ * For any `ping` results showing loss/latency, try a `traceroute` to narrow down where the loss is occuring. Is it closer to the client or server?
  * Is the site public, or restricted to an internal company network? If restricted, is the client system on the correct network, and/or connected via VPN? Checking `ifconfig` and `netstat -rn` output will show what IP network it's on, and whether it's routing through a VPN tunnel.
 
 
 #### Network layer
-At this point I'd check to see if other users are reporting issues. Problems at this end of the connection will most likely be affecting a wider set of users, then check network connecivity for the server, or cluster of servers, and any network gear in front of them.
+At this point I'd check to see if other users are reporting issues. Problems at this end of the connection will most likely be affecting a wider set of users. I'd then check network connecivity for the server, or cluster of servers, and any network gear in front of them.
 
- * Is there a firewall at the customer or server side of the network? If the client is on a wireless network, is there wireless network management? Either could possibly have 'quarantined' the client - check admin interfaces and logs if there is layer 3 connection failures.
+ * Is there a firewall at the customer or server side of the network? If the client is on a wireless network, is there wireless network management? Either could possibly have 'quarantined' the client - check admin interfaces and logs if there are layer 3 connection failures.
  * Is there a load balancer in front of the cluster? Look at load balancing logs and admin interface to see if it is operating correctly. Is it showing a large number of backend timeouts or reporting 4xx or 5xx http errors?
  * Am I able to connect via http/https to the load balancer's VIP from the internet, or internal company network?
  * From the load balancer, am I able to ping its next routing hop?
  * From the load balancer, am I able to ping all of the backends?
- * If there are connectivity issues, look at the switches between the load balancer and its nexthop router(s). Are there ports down, bouncing, or reporting media errors? Are the ports showing sustained traffic levels close to their physical media max?
- * Look at the clusters' next-hop layer 3 router(s) logs. Has there been a hardware failure? Is there a pair of HSRP/VRRP routers failing back and forth, producing intermittent outages? Do the interfaces that connect the load balancer or server aggregation switch show media errors or link failures? (ios: `show int summary`, `sh int status err-disabled`, `show vrrp brief`)
- * Do the routers have the correct routing configured? Has there been a link failure that has caused a route withdrawal? (ios: `sh ip route`, `sh ip bgp sum`, `sh ip ospf nei`, etc)
+ * If there are connectivity issues, look at the switches between the load balancer and its next-hop router(s). Are there ports down, bouncing, or reporting media errors? Are the ports showing sustained traffic levels close to their physical media max?
+ * Look at the clusters' next-hop layer 3 router(s) logs. Has there been a hardware failure? Is there a pair of HSRP/VRRP routers failing back and forth, producing intermittent outages? Do the interfaces that connect the load balancer or server aggregation switch show media errors or link failures? (ios: `show int summary`, `sh int status err-disabled`, `show vrrp brief`, etc)
+ * Do the routers have the correct routing configured? Has there been a link failure that has caused a route withdrawal? (ios: `sh ip route`, `sh ip bgp summary`, `sh ip ospf neighbor`, etc)
 
 
 #### Server-side network layer
-Verify layer 2 and layer 3 connecivity and configuration. Similar to the network layer checks I'd run on the client side. Frequently in clustered architectures one member becomes misconfigured through operator error or config management errors; so quickly diff output of `netstat -rn` and `ifconfig -a` across cluster members and compare with the expected correct values. Ensure that autoconfigured parameters via dhcp/v6 router discovery are correct and haven't been hard-coded.
+Verify layer 2 and layer 3 connecivity and configuration, similar to the network layer checks I'd run on the client side. Frequently in clustered architectures one member becomes misconfigured through operator error or config management errors; so quickly diff output of `netstat -rn` and `ifconfig -a` across cluster members and compare with the expected correct values. Ensure that autoconfigured parameters via dhcp/v6 router discovery are correct and haven't been hard-coded.
 
  * Can the servers ping their layer 3 next-hop router?
  * Does a `netstat -i` show any media errors or retransmits?
