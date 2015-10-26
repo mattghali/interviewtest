@@ -22,7 +22,7 @@ Power-on is signalled by a momentary switch grounding a pin on the motherboard. 
 
 
 ### Reset Vector
-Once the CPU begins running, it begins by fetching instructions, basically executing an uncondition jump to 0xFFFFFFF0, the architecture's standard reset vector. Since this is 16 bytes from the top of physical memory in the current ("Real") addressing mode, this vector is a far jump to the real location of the system initialization code. A legacy feature of the hardware at this point is that the top 12 address lines are held high, allowing address "aliasing". This allows code to be executed from nonvolatile memory mapped at the lowest region of space as if it were at the top of the map.
+Once the CPU begins running, it begins by fetching instructions, basically executing an unconditional jump to 0xFFFFFFF0, the architecture's standard reset vector. Since this is 16 bytes from the top of physical memory in the current ("Real") addressing mode, this vector just contains a far jump to the real location of the system initialization code. A legacy feature of the hardware at this point is that the top 12 address lines are held high, allowing address "aliasing". This allows code to be executed from nonvolatile memory mapped at the lowest region of space as if it were at the top of the map.
 
 
 ### Cold boot
@@ -38,9 +38,9 @@ Executing firmware from flash is much slower than executing from DRAM. Because o
 
 
 ### CPU Initialization
-The next steps the firmware take initialize the CPU. If needed, a microcode update is transferred from the firmware to the CPU. Next, APICs are configured to manage interrupts from hardware before handers are installed at the transition from Real mode into Protected mode. And finally, several registers are set up with required structures before switching modes. These include the IDT, the GDT, the TSS and LDT. These registers generally are used by the processor in protected mode in order to maintain state between context switches. The control registers CR1 through CR4 are also set.
+The next steps the firmware take initialize the CPU. If needed, a microcode update is transferred from the firmware to the CPU. Next, APICs are configured to manage interrupts from hardware before handers are installed at the transition from Real mode into Protected mode. And finally, several registers are set up with required structures before switching modes. These include the IDT, the GDT, the TSS and LDT. These tables are used by the processor in protected mode in order to maintain state including interrupts and memory segmentation. The control registers CR1 through CR4 are also set.
 
-Paging is also configured here, at least minimally, at least pointing to the code page containing what will be executed when CR0 triggers the actual switch into Protected mode.
+Paging is also configured here, at least minimally, pointing to the code page that will be executed when CR0 triggers the actual switch into Protected mode.
 
 
 
@@ -52,5 +52,6 @@ While the question requested "as much detail as possible", it was not in fact po
  * [Minimum Steps Necessary to Boot an Intel® Architecture Platform](http://www.intel.com/content/dam/www/public/us/en/documents/white-papers/minimal-intel-architecture-boot-loader-paper.pdf)
  * [Secret of Intel Management Engine by Igor Skochinsky](http://www.slideshare.net/codeblue_jp/igor-skochinsky-enpub)
  * [UEFI boot: how does that actually work, then?](https://www.happyassassin.net/2014/01/25/uefi-boot-how-does-that-actually-work-then/)
+ * [GDT Tutorial](http://wiki.osdev.org/GDT_Tutorial)
 
 
