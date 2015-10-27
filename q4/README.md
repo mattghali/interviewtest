@@ -57,11 +57,11 @@ Before finding and running a boot loader, the firmware must define a map of syst
 
 
 ### OS Loader
-The OS loader routine in the firmware is called the "UEFI boot manager". This code can read a standardized configuration from a designated area of nonvolatile memory, and read efi binaries off FAT formatted "efi system" partitions. From an ordered list stored in nvram, the boot manager chooses a partition, loads and runs the efi boot loader off the selected system partition. On our linux system that will likely be grub2-efi, located after boot under /boot/efi.
+The OS loader routine in the firmware is called the "UEFI boot manager". This code can read a standardized configuration from a designated area of nonvolatile memory, and read efi binaries off FAT formatted "efi system" partitions. From an ordered list stored in nvram, the boot manager chooses a partition, loads and runs the efi boot loader off the selected system partition, mounted after boot at /boot/efi. On our linux system that will likely be grub2-efi.
 
 
 ### Bootloader
-grub2-efi is an efi binary that reads typical grub configuration. Two basic items grub needs are the root device to mount, and the kernel to execute. It can also load additional modules, and uncompress/mount/execute a compressed initial root filesystem. The bootloader mounts the root filesystem, and from it loads the kernel.
+grub2-efi is an efi binary that reads typical grub configuration. Two basic items grub needs are the root device to mount, and the kernel to execute, along with its boot arguments. It can also load additional modules, and uncompress/mount/execute a compressed initial root filesystem. The bootloader mounts the root filesystem, and from it loads the kernel.
 
 
 ### Kernel load
@@ -69,7 +69,7 @@ The kernel actually consists of two parts- a small portion of real-mode code, lo
 
 
 ### Kernel main()
-This initial kernel code handles setting a video mode, and preparing to switch to protected mode. First it sets up an initial interrupt table (IDT) and global descriptor table (GDT). After some magic called the A20 gate, the kernel enables protected mode by setting PE in CR0. At this point paging is still disabled, but the kernel can now address up to 4GB of ram. It jumps to the 32-bit kernel entry point, and begins decompressing the rest of the kernel which was above the 640k real-mode limit. When done, another jump is done, to startup_32() in the now-uncompressed kernel, located at the start of the second megabyte of ram (0x100000).
+This initial kernel code handles setting a video mode, and preparing to switch to protected mode. First it sets up an initial interrupt table (IDT) and global descriptor table (GDT). After some legacy PC architecture fiddling with what's called the A20 gate, the kernel enables protected mode by setting PE in CR0. The A20 gate enables the 21st address line, which by default is disabled. Initially this was controlled via the keyboard controller, which moved to a multifunction chip called the LPC (Low Pin Cont) controller. Its now either emulated inside the CPU, or absent. At this point paging is still disabled, but the kernel can now address up to 4GB of ram. It jumps to the 32-bit kernel entry point, and begins decompressing the rest of the kernel which was above the 640k real-mode limit. When done, another jump is done, to startup_32() in the now-uncompressed kernel, located at the start of the second megabyte of ram (0x100000).
 
 
 ### Kernel startup_32() through pid 1
